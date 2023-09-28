@@ -10,9 +10,9 @@ function App() {
     setUserInput(userInput);
   };
 
-  if (userInput) {
-    const yearlyData = [];
+  const yearlyData = [];
 
+  if (userInput) {
     let currentSavings = +userInput["current-savings"];
     const yearlyContribution = +userInput["yearly-contribution"];
     const expectedReturn = +userInput["expected-return"] / 100;
@@ -34,13 +34,14 @@ function App() {
   return (
     <div>
       <Header />
-
       <UserInput onCalculate={calculateHandler} />
-
-      {/* Todo: Show below table conditionally (only once result data is available) */}
-      {/* Show fallback text if no data is available */}
-
-      <ResultTable />
+      {!userInput && <p>No investment calculated yet.</p>}
+      {userInput && (
+        <ResultTable
+          data={yearlyData}
+          initialInvestment={userInput["current-savings"]}
+        />
+      )}
     </div>
   );
 }
